@@ -2,7 +2,6 @@
 
 The demo pipeline for the Syncopy paper. It uses Syncopy to analyze data from the [Visual Coding Project of the Allen Brain Institute](https://allensdk.readthedocs.io/en/latest/visual_coding_neuropixels.html), described in [Siegle et al., 2021](https://doi.org/10.1038/s41586-020-03171-x).
 
-This repo also contains the same analysis workflow, carried out in Fieldtrip for comparison.
 
 ## Instructions for Reproducing the Outputs (Python part only)
 
