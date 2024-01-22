@@ -3,7 +3,7 @@
 The demo pipeline for the Syncopy paper. It uses Syncopy to analyze data from the [Visual Coding Project of the Allen Brain Institute](https://allensdk.readthedocs.io/en/latest/visual_coding_neuropixels.html), described in [Siegle et al., 2021](https://doi.org/10.1038/s41586-020-03171-x).
 
 
-## Instructions for Reproducing the Outputs (Python part only)
+## Instructions for Reproducing the Outputs (Python and Matlab scripts)
 
 Before you start, install git and conda if you do not have them yet, and make sure both are available as commands in your terminal. Then follow the instructions below.
 
@@ -49,3 +49,8 @@ E.g., to run the first one, type `python ./Raster_PSTH.py`.
 
 This will run the analysis pipeline and create the output plots in PDF and PNG format in the current working directory.
 
+
+### 4. Matlab code
+To run Matlab script, first you need to download [Fieldtrip toolbox](https://www.fieldtriptoolbox.org/).
+Next, go to `code/Matlab`, open Matlab_power_connectivity.m and add path the Fiedltrip toolbox by updating the address of it in the Matlab script.
+Then, run  Matlab_power_connectivity.m script.
