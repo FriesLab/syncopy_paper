@@ -1,6 +1,6 @@
 # Syncopy Paper -- Online Materials
 
-The demo pipeline for the Syncopy paper. It uses Syncopy to analyze data from the [Visual Coding Project of the Allen Brain Institute](https://allensdk.readthedocs.io/en/latest/visual_coding_neuropixels.html), described in [Siegle et al., 2021](https://doi.org/10.1038/s41586-020-03171-x).
+The demo pipeline for the [Syncopy paper](https://doi.org/10.1101/2024.04.15.589590). It uses [Syncopy](https://github.com/esi-neuroscience/syncopy) to analyze data from the [Visual Coding Project of the Allen Brain Institute](https://allensdk.readthedocs.io/en/latest/visual_coding_neuropixels.html), described in [Siegle et al., 2021](https://doi.org/10.1038/s41586-020-03171-x).
 
 
 ## Instructions for Reproducing the Outputs (Python and Matlab scripts)
