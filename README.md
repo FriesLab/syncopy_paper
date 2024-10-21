@@ -51,6 +51,6 @@ This will run the analysis pipeline and create the output plots in PDF and PNG f
 
 
 ### 4. Matlab code
-To run Matlab script, first you need to download [Fieldtrip toolbox](https://www.fieldtriptoolbox.org/).
-Next, go to `code/Matlab`, open Matlab_power_connectivity.m and add path the Fiedltrip toolbox by updating the address of it in the Matlab script.
-Then, run  Matlab_power_connectivity.m script.
+To run the Matlab script, first you need to download the [Fieldtrip toolbox](https://www.fieldtriptoolbox.org/).
+Next, go to `code/Matlab` in Matlab, open the Matlab script ```Matlab_power_connectivity.m``` and set the path to the Fieldtrip toolbox you downloaded in the Matlab script. 
+Then, you can run the script in Matlab.
