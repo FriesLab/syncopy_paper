@@ -36,14 +36,12 @@ probes = cache.get_probes()
 
 # Cut trials
 print(pd.unique(session.stimulus_presentations.stimulus_name))
-presentation_table = session.stimulus_presentations[session.stimulus_presentations.stimulus_name == stimType]
+presentation_table = session.stimulus_presentations[
+    session.stimulus_presentations.stimulus_name == stimType]
 presentation_times = presentation_table.start_time.values
 presentation_ids = presentation_table.index.values
 win = np.arange(-.25, .25, 1 / sample_freq)
 stim_lbl = session.get_stimulus_table([stimType])['color']
-
-
-
 
 
 prob_range = session.probes.index.values
@@ -51,6 +49,8 @@ prob_range = session.probes.index.values
 """
 Read Allen data and save the spikes in Syncopy file format.
 """
+
+
 def read_spy_spikes():
 
     print("Creating Syncopy spike data file...")
@@ -113,17 +113,20 @@ def read_spy_spikes():
     # unit labels have to be strings
     spy_spikes.unit = list(map(str, set(active_units)))
 
-    spy_spikes.info['fsample_raw'] = sample_freq_rawdata   # Add custom metadata: raw sampling rate.
+    # Add custom metadata: raw sampling rate.
+    spy_spikes.info['fsample_raw'] = sample_freq_rawdata
 
     # Finally save to disc.
-    spy_spikes.save(os.path.join(os.path.curdir, 'allen_spike'), overwrite=True)
+    spy_spikes.save(os.path.join(
+        os.path.curdir, 'allen_spike'), overwrite=True)
     # return Spikes
-
 
 
 """
 Read Allen data and save the LFP data in Syncopy file format.
 """
+
+
 def read_spy_lfp():
 
     print("Creating Syncopy LFP data file...")
@@ -134,13 +137,16 @@ def read_spy_lfp():
     lfps = []
     lfp_channel_id = []
 
-    
     for prob_ind in tqdm(prob_range):
-        lfps.append(session.get_lfp(prob_ind))
+        try:
+            lfps.append(session.get_lfp(prob_ind))
+        except:
+            print(f"No LFP in this electrode:{prob_range}")
+            continue
 
     for tr in trange(len(presentation_times)):
         lfp_buf = []
-  
+
         # Append LFP of all channels
         for _, lfp in enumerate(lfps):
             ch_range = lfp.channel.values
@@ -150,10 +156,13 @@ def read_spy_lfp():
                     if bipolar == 1:
                         lfp_tmp = (lfp.sel(time=(presentation_times[tr]+win), method='nearest', channel=ch_range[z]))-(
                             lfp.sel(time=(presentation_times[tr]+win), method='nearest', channel=ch_range[z+1]))
-                        loc_tmp = (session.channels.ecephys_structure_acronym[channel_ids])
+                        loc_tmp = (
+                            session.channels.ecephys_structure_acronym[channel_ids])
                     elif bipolar == 0:
-                        lfp_tmp = (lfp.sel(time=(presentation_times[tr]+win), method='nearest', channel=channel_ids))
-                        loc_tmp = (session.channels.ecephys_structure_acronym[channel_ids])
+                        lfp_tmp = (lfp.sel(
+                            time=(presentation_times[tr]+win), method='nearest', channel=channel_ids))
+                        loc_tmp = (
+                            session.channels.ecephys_structure_acronym[channel_ids])
 
                     if tr == 0:
                         loc.append(loc_tmp)
@@ -162,7 +171,8 @@ def read_spy_lfp():
                         elif bipolar == 0:
                             lfp_channel_id.append(channel_ids)
                     lfp_buf.append(lfp_tmp)
-                    lfp_buf[-1] = np.nan_to_num(lfp_buf[-1].values.reshape(1, -1))
+                    lfp_buf[-1] = np.nan_to_num(
+                        lfp_buf[-1].values.reshape(1, -1))
                 except:
                     pass
 
@@ -175,11 +185,15 @@ def read_spy_lfp():
     lfp.info['stim_lbl'] = list(stim_lbl)
     lfp.info['Twin'] = [arr.tolist() for arr in twin]
 
-
+    # Finally save to disc.
+    lfp.save(os.path.join(os.path.curdir, 'allen_lfp'), overwrite=True)
+    # return LFP
 
 """
 Read Allen data and save it for loading into Fieldtrip, in Matlab MAT file format.
 """
+
+
 def read_ft():
 
     print("Creating Fieldtrip data file...")
@@ -210,7 +224,10 @@ def read_ft():
 
     # Append spikes of all channels
     for prob_ind in tqdm(prob_range):
-        lfps.append(session.get_lfp(prob_ind))
+        try:
+            lfps.append(session.get_lfp(prob_ind))
+        except:
+            continue
         units_of_interest = (session.units[(session.units.probe_id == prob_ind) &
                                            (session.units.firing_rate > 10) &
                                            (session.units.nn_hit_rate > 0.95)])
